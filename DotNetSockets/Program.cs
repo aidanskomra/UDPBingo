@@ -14,30 +14,28 @@ namespace DotNetSockets
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            FormClient fc = null;
-            FormServer fs = null;
+            FormBase activeForm = null;
             if (args[0] == "client")
             {
-                fc = new FormClient();
-                fc.Show();
+                activeForm = new FormClient();
+                activeForm.Show();
             }
             if (args[0] == "server")
             {
-                fs = new FormServer();
-                fs.Show();
+                activeForm = new FormServer();
+                activeForm.Show();
             }
 
             while (Application.OpenForms.Count > 0)
             {
                 Application.DoEvents();
-                if (fc != null)
+
+                if (activeForm != null)
                 {
-                    if (!fc.UpdateList()) return;
+                    if (!activeForm.UpdateList())  // ← Calling UpdateList from activeForm
+                        return;
                 }
-                if (fs != null)
-                {
-                    if (!fs.UpdateList()) return;
-                }
+
                 Thread.Sleep(10);
             }
         }

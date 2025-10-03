@@ -10,24 +10,12 @@ using System.Windows.Forms;
 
 namespace DotNetSockets
 {
-    public partial class FormServer : Form
+    public partial class FormServer : FormBase
     {
-        private readonly UDPController m_udp = new UDPController();
         public FormServer()
         {
             InitializeComponent();
             m_udp.Server("127.0.0.1", 27015);
-        }
-
-        public bool UpdateList()
-        {
-            string message = m_udp.GetNextMessage();
-            if (message != string.Empty)
-            {
-                listBoxServer.Items.Add(message);
-            }
-
-            return true;
         }
     }
 }
