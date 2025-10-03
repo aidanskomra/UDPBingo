@@ -15,6 +15,7 @@ namespace DotNetSockets
         public FormClient()
         {
             InitializeComponent();
+            m_listBox = listBoxClient;
             m_udp.Client("127.0.0.1", 27015);
         }
 
