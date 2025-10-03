@@ -32,7 +32,7 @@ namespace DotNetSockets
 
                 if (activeForm != null)
                 {
-                    if (!activeForm.UpdateList())  // ← Calling UpdateList from activeForm
+                    if (!activeForm.UpdateList())
                         return;
                 }
 
