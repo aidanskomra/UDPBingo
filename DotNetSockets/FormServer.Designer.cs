@@ -1,6 +1,6 @@
 ﻿namespace DotNetSockets
 {
-    partial class Form1
+    partial class FormServer
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.listBoxServer = new System.Windows.Forms.ListBox();
+            this.SuspendLayout();
+            // 
+            // listBoxServer
+            // 
+            this.listBoxServer.FormattingEnabled = true;
+            this.listBoxServer.Location = new System.Drawing.Point(13, 13);
+            this.listBoxServer.Name = "listBoxServer";
+            this.listBoxServer.Size = new System.Drawing.Size(345, 225);
+            this.listBoxServer.TabIndex = 0;
+            // 
+            // FormServer
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.Controls.Add(this.listBoxServer);
+            this.Name = "FormServer";
+            this.Text = "FormServer";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.ListBox listBoxServer;
     }
 }
-
