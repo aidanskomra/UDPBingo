@@ -13,6 +13,8 @@ namespace DotNetSockets
     public partial class FormServer : FormBase
     {
         private int m_expectedIndex = 0;
+        private int m_outOfOrderCount = 0;
+        private int m_receivedCount = 0;
         public FormServer()
         {
             InitializeComponent();
@@ -27,18 +29,20 @@ namespace DotNetSockets
             {
                 int index = int.Parse(message.Split('|')[0]);
 
+                m_receivedCount++;
                 if (index != m_expectedIndex)
                 {
-                    m_listBox.Items.Add($"ERROR!!! Expected: {m_expectedIndex}, got {index} instead");
-                    Application.Exit();
-                    return false;
+                    m_outOfOrderCount++;
+                    if (m_outOfOrderCount <= 10)
+                    {
+                        m_listBox.Items.Add($"Out of order: Expected {m_expectedIndex}, got {index}");
+                    }
                 }
 
-                m_expectedIndex++;
-
-                if (index % 100 == 0)
+                m_expectedIndex = index + 1;
+                if (m_receivedCount % 1000 == 0)
                 {
-                    m_listBox.Items.Add($"Received message {index}");
+                    m_listBox.Items.Add($"Received {m_receivedCount} messages, {m_outOfOrderCount} out of order");
                 }
             }
             return true;

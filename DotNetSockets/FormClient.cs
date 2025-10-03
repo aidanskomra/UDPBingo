@@ -33,12 +33,20 @@ namespace DotNetSockets
             {
                 string indexedMessage = m_messageIndex + "|" + baseMessage;
                 m_udp.Send(indexedMessage);
-
-                while (!m_udp.HasResponse())
+                int waitTime = 0;
+                while (!m_udp.HasResponse() && waitTime < 1000)
                 {
                     Application.DoEvents();
                     System.Threading.Thread.Sleep(1);
+                    waitTime++;
                 }
+
+                if (!m_udp.HasResponse())
+                {
+                    listBoxClient.Items.Add($"Timeout on message {m_messageIndex}");
+                    break;
+                }
+
                 m_udp.ClearResponse();
 
                 m_messageIndex++;
