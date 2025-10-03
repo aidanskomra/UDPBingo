@@ -36,7 +36,7 @@ namespace DotNetSockets
                 m_messageIndex++;
             }
 
-            listBoxClient.Items.Add($"[SENT] 10,000 messages starting from index {m_messageIndex - 10000}");
+            listBoxClient.Items.Add($"sent 10,000 messages starting from index {m_messageIndex - 10000}");
         }
     }
 }
