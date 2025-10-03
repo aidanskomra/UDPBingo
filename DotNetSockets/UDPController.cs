@@ -24,6 +24,16 @@ namespace DotNetSockets
         private const int maxRetries = 5;
         private Stopwatch m_timer = new Stopwatch();
 
+        public bool HasResponse()
+        {
+            return m_response;
+        }
+
+        public void ClearResponse()
+        {
+            m_response = false;
+        }
+
         public void Server(string address, int port)
         {
             m_socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);

@@ -33,6 +33,14 @@ namespace DotNetSockets
             {
                 string indexedMessage = m_messageIndex + "|" + baseMessage;
                 m_udp.Send(indexedMessage);
+
+                while (!m_udp.HasResponse())
+                {
+                    Application.DoEvents();
+                    System.Threading.Thread.Sleep(1);
+                }
+                m_udp.ClearResponse();
+
                 m_messageIndex++;
             }
 
