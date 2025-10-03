@@ -21,6 +21,8 @@ namespace DotNetSockets
 
         public bool UpdateList()
         {
+            m_udp.CheckTimeout();
+
             string message = m_udp.GetNextMessage();
             if (message != string.Empty)
             {
