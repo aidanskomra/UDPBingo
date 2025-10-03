@@ -12,16 +12,31 @@ namespace DotNetSockets
 {
     public partial class FormClient : FormBase
     {
+        private int m_messageIndex = 0;
+
         public FormClient()
         {
             InitializeComponent();
             m_listBox = listBoxClient;
             m_udp.Client("127.0.0.1", 27015);
+            textBoxSend.Text = "This is a really long message that i want to fill in the box so i can test with a large message" +
+                               "I also want to have another message here because I said so, also this is a winforms with sockets using dotnet" +
+                               "WOW THIS IS A MESSAGE INSIDE THE CLIENTS TEXTBOX WOW I NEED TO WRITE WORDS TO FILL IT IN YES, YES, YES, YES:" +
+                               "This is the last line of filler words so i can test the communication with a large message and now it is completed and finished";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            m_udp.Send(textBoxSend.Text);
+            string baseMessage = textBoxSend.Text;
+
+            for (int i = 0; i < 10000; i++)
+            {
+                string indexedMessage = m_messageIndex + "|" + baseMessage;
+                m_udp.Send(indexedMessage);
+                m_messageIndex++;
+            }
+
+            listBoxClient.Items.Add($"[SENT] 10,000 messages starting from index {m_messageIndex - 10000}");
         }
     }
 }
