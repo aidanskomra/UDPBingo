@@ -33,5 +33,25 @@ namespace DotNetSockets
         {
             m_udp.Send(textBoxSend.Text);
         }
+
+        private void buttonUp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonDown_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonLeft_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonRight_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
