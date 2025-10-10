@@ -13,9 +13,9 @@ namespace DotNetSockets
         private const int m_bufSize = 8 * 1024;
         private readonly Socket m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         private readonly byte[] m_buffer = new byte[m_bufSize];
-        private readonly Queue<string> m_messages = new Queue<string>();
         private EndPoint m_epFrom = new IPEndPoint(IPAddress.Any, 0);
         private bool m_isServer = false;
+        private readonly Queue<Messages> m_messages = new Queue<Messages>();
 
         public void Server(string address, int port)
         {
@@ -42,7 +42,7 @@ namespace DotNetSockets
             string message = Encoding.ASCII.GetString(m_buffer, 0, bytes);
             lock (m_messages)
             {
-                m_messages.Enqueue(message);
+                m_messages.Enqueue(new Messages() { Message = message, RemoteEP = m_epFrom});
             }
             if (m_isServer)
             {
@@ -65,7 +65,7 @@ namespace DotNetSockets
             }
         }
 
-        public string GetNextMessage()
+        public Messages GetNextMessage()
         {
             lock (m_messages)
             {
@@ -74,7 +74,7 @@ namespace DotNetSockets
                     return m_messages.Dequeue();
                 }
             }
-            return string.Empty;
+            return null;
         }
     }
 }

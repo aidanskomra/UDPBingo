@@ -30,10 +30,28 @@ namespace DotNetSockets
 
         public bool UpdateList()
         {
-            string message = m_udp.GetNextMessage();
-            if (message != string.Empty)
+            Messages message = m_udp.GetNextMessage();
+            if (message != null)
             {
-                listBoxClient.Items.Add(message);
+                listBoxClient.Items.Add(message.Message);
+                string[] act = message.Message.Split(':');
+                switch (act[0])
+                {
+                    case "MoveX":
+                        {
+                            Rectangle b = m_character.Bounds;
+                            m_character.SetBounds(int.Parse(act[1]), b.Y, 100,
+                            100);
+                            break;
+                        }
+                    case "MoveY":
+                        {
+                            Rectangle b = m_character.Bounds;
+                            m_character.SetBounds(b.X, int.Parse(act[1]), 100,
+                            100);
+                            break;
+                        }
+                }
             }
             return true;
         }

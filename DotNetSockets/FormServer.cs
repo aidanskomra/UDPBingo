@@ -30,11 +30,11 @@ namespace DotNetSockets
 
         public bool UpdateList()
         {
-            string message = m_udp.GetNextMessage();
-            if (message != string.Empty)
+            Messages message = m_udp.GetNextMessage();
+            if (message != null)
             {
-                listBoxServer.Items.Add(message);
-                switch (message)
+                listBoxServer.Items.Add(message.Message);
+                switch (message.Message)
                 {
                     case "Up":
                         {
@@ -65,6 +65,8 @@ namespace DotNetSockets
                             break;
                         }
                 }
+                m_udp.Send("MoveX:" + m_character.Bounds.X, message.RemoteEP);
+                m_udp.Send("MoveY:" + m_character.Bounds.Y, message.RemoteEP);
             }
             return true;
         }
