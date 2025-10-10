@@ -117,7 +117,7 @@
             // 
             this.panelMoveCharacter.Location = new System.Drawing.Point(319, 43);
             this.panelMoveCharacter.Name = "panelMoveCharacter";
-            this.panelMoveCharacter.Size = new System.Drawing.Size(99, 88);
+            this.panelMoveCharacter.Size = new System.Drawing.Size(469, 394);
             this.panelMoveCharacter.TabIndex = 8;
             // 
             // FormClient

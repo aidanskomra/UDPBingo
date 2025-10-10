@@ -45,22 +45,30 @@ namespace DotNetSockets
 
         private void buttonUp_Click(object sender, EventArgs e)
         {
-
+            Rectangle b = m_character.Bounds;
+            m_character.SetBounds(b.X, b.Y - 5, 100, 100);
+            m_udp.Send("Up");
         }
 
         private void buttonDown_Click(object sender, EventArgs e)
         {
-
+            Rectangle b = m_character.Bounds;
+            m_character.SetBounds(b.X, b.Y + 5, 100, 100);
+            m_udp.Send("Down");
         }
 
         private void buttonLeft_Click(object sender, EventArgs e)
         {
-
+            Rectangle b = m_character.Bounds;
+            m_character.SetBounds(b.X - 5, b.Y, 100, 100);
+            m_udp.Send("Left");
         }
 
         private void buttonRight_Click(object sender, EventArgs e)
         {
-
+            Rectangle b = m_character.Bounds;
+            m_character.SetBounds(b.X + 5, b.Y, 100, 100);
+            m_udp.Send("Right");
         }
     }
 }
