@@ -13,10 +13,19 @@ namespace DotNetSockets
     public partial class FormClient : Form
     {
         private readonly UDPController m_udp = new UDPController();
+        private PictureBox m_character = new PictureBox();
         public FormClient()
         {
             InitializeComponent();
             m_udp.Client("127.0.0.1", 27015);
+            AddCharacter();
+        }
+
+        private void AddCharacter()
+        {
+            m_character.Image = Image.FromFile("Zombie.png");
+            m_character.SetBounds(0, 0, 100, 100);
+            panelMoveCharacter.Controls.Add(m_character);
         }
 
         public bool UpdateList()

@@ -36,6 +36,7 @@
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
             this.buttonRight = new System.Windows.Forms.Button();
+            this.panelMoveCharacter = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,7 +69,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(319, 43);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(469, 395);
+            this.pictureBox1.Size = new System.Drawing.Size(469, 394);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
@@ -112,6 +113,13 @@
             this.buttonRight.UseVisualStyleBackColor = true;
             this.buttonRight.Click += new System.EventHandler(this.buttonRight_Click);
             // 
+            // panelMoveCharacter
+            // 
+            this.panelMoveCharacter.Location = new System.Drawing.Point(319, 43);
+            this.panelMoveCharacter.Name = "panelMoveCharacter";
+            this.panelMoveCharacter.Size = new System.Drawing.Size(99, 88);
+            this.panelMoveCharacter.TabIndex = 8;
+            // 
             // FormClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -121,10 +129,11 @@
             this.Controls.Add(this.buttonLeft);
             this.Controls.Add(this.buttonDown);
             this.Controls.Add(this.buttonUp);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.listBoxClient);
             this.Controls.Add(this.textBoxSend);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.panelMoveCharacter);
+            this.Controls.Add(this.pictureBox1);
             this.Name = "FormClient";
             this.Text = "FormClient";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -143,5 +152,6 @@
         private System.Windows.Forms.Button buttonDown;
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.Button buttonRight;
+        private System.Windows.Forms.Panel panelMoveCharacter;
     }
 }
