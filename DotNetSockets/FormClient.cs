@@ -19,6 +19,10 @@ namespace DotNetSockets
             InitializeComponent();
             m_udp.Client("127.0.0.1", 27015);
             AddCharacter();
+            this.KeyPreview = true;
+            this.KeyDown += FormClient_KeyDown;
+            panelMoveCharacter.MouseClick += PanelMoveCharacter_MouseClick;
+            this.FormClosing += (s, e) => m_udp.Close();
         }
 
         private void AddCharacter()
@@ -87,6 +91,33 @@ namespace DotNetSockets
             Rectangle b = m_character.Bounds;
             m_character.SetBounds(b.X + 5, b.Y, 100, 100);
             m_udp.Send("Right");
+        }
+
+        private void FormClient_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                    m_udp.Send("Up");
+                    break;
+                case Keys.Down:
+                    m_udp.Send("Down");
+                    break;
+                case Keys.Left:
+                    m_udp.Send("Left");
+                    break;
+                case Keys.Right:
+                    m_udp.Send("Right");
+                    break;
+            }
+        }
+        private void PanelMoveCharacter_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                string msg = $"MoveTo:{e.X}:{e.Y}";
+                m_udp.Send(msg);
+            }
         }
     }
 }

@@ -16,18 +16,20 @@ namespace DotNetSockets
         private EndPoint m_epFrom = new IPEndPoint(IPAddress.Any, 0);
         private bool m_isServer = false;
         private readonly Queue<Messages> m_messages = new Queue<Messages>();
-
+        private bool m_isRunning = false;
         public void Server(string address, int port)
         {
             m_socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);
             m_socket.Bind(new IPEndPoint(IPAddress.Parse(address), port));
             m_isServer = true;
+            m_isRunning = true;
             Receive();
         }
 
         public void Client(string address, int port)
         {
             m_socket.Connect(IPAddress.Parse(address), port);
+            m_isRunning = true;
             Receive();
         }
 
@@ -38,6 +40,7 @@ namespace DotNetSockets
 
         private void RecvCallback(IAsyncResult ar)
         {
+            if (!m_isRunning) return;
             int bytes = m_socket.EndReceiveFrom(ar, ref m_epFrom);
             string message = Encoding.ASCII.GetString(m_buffer, 0, bytes);
             lock (m_messages)
@@ -75,6 +78,15 @@ namespace DotNetSockets
                 }
             }
             return null;
+        }
+
+        public void Close()
+        {
+            m_isRunning = false;
+            if (m_socket != null)
+            {
+                m_socket.Close();
+            }
         }
     }
 }
