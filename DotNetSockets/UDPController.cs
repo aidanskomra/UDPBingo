@@ -17,6 +17,7 @@ namespace DotNetSockets
         private bool m_isServer = false;
         private readonly Queue<Messages> m_messages = new Queue<Messages>();
         private bool m_isRunning = false;
+        private readonly List<EndPoint> m_connectedClients = new List<EndPoint>();
         public void Server(string address, int port)
         {
             m_socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);
