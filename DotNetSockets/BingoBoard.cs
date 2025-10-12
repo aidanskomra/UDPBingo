@@ -21,10 +21,11 @@ namespace DotNetSockets
         /// fills board with random numbers from 10 to 99 with no duplicates
         /// it uses GUID to make sure each board is different
         /// </summary>
-        public void InitializeBoard()
+        public void InitializeBoard(HashSet<int> usedNumbers)
         {
             Random random = new Random(Guid.NewGuid().GetHashCode()); // random with unique seed
-            HashSet<int> usedNumbers = new HashSet<int>(); // hashset to track numbers we have already used
+            int maxAttempts = 1000;
+            int attempts = 0;
             for (int row = 0; row < m_size; row++)
             {
                 for (int col = 0; col < m_size; col++)
@@ -35,6 +36,11 @@ namespace DotNetSockets
                     do
                     {
                       number = random.Next(10, 100); 
+                      attempts++;
+                      if (attempts > maxAttempts)
+                        {
+                            throw new Exception("Not enough numbers to fill out all clients boards.");
+                        }
                     } 
                     
                     while (usedNumbers.Contains(number));

@@ -31,6 +31,7 @@ namespace DotNetSockets
             m_gameTimer.Elapsed += GameTimer_Elapsed;
             m_gameTimer.AutoReset = true; // continues until winner
 
+            this.Focus();
             this.KeyPreview = true;
             this.KeyDown += FormServer_KeyDown; // for pressing keys like s or esc
             this.FormClosing += (s, e) => OnFormClosing(); // cleans up resources
@@ -91,14 +92,15 @@ namespace DotNetSockets
         {
             m_clientBoards.Clear(); // clears from any previous game
             List<EndPoint> clients = m_udp.GetConnectedClients(); // gets the list of all clients
-
+            HashSet<int> usedNumbers = new HashSet<int>();
             int clientNum = 1;
             foreach (EndPoint client in clients)
             {
                 BingoBoard board = new BingoBoard(m_boardSize); // creates new board
-                board.InitializeBoard(); // assigns random numbers to the board
+                board.InitializeBoard(usedNumbers); // assigns random numbers to the board
 
                 string boardData = board.BoardToString(); // changes to string
+                listBoxServer.Items.Add($"Board #{clientNum} for {client}: {boardData}");
                 m_udp.Send("BOARD:" + boardData, client); // sends to client
 
                 m_clientBoards[client.ToString()] = board;
