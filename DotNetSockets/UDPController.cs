@@ -10,14 +10,14 @@ namespace DotNetSockets
 {
     public class UDPController
     {
-        private const int m_bufSize = 8 * 1024;
-        private readonly Socket m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        private const int m_bufSize = 8 * 1024; // 8 KB
+        private readonly Socket m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp); // ipv4, datagram (udp), udp protocol
         private readonly byte[] m_buffer = new byte[m_bufSize];
         private EndPoint m_epFrom = new IPEndPoint(IPAddress.Any, 0);
         private bool m_isServer = false;
         private readonly Queue<Messages> m_messages = new Queue<Messages>();
         private bool m_isRunning = false;
-        private readonly List<EndPoint> m_connectedClients = new List<EndPoint>();
+        private readonly List<EndPoint> m_connectedClients = new List<EndPoint>(); // List of connected clients
         public void Server(string address, int port)
         {
             m_socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);
@@ -50,10 +50,15 @@ namespace DotNetSockets
             }
             if (m_isServer)
             {
-                string retMessage = "Server Recieved: " + message;
-                m_socket.SendTo(Encoding.ASCII.GetBytes(retMessage), m_epFrom);
+                lock (m_connectedClients) 
+                {
+                    if (!m_connectedClients.Any(_ep => _ep.ToString() == m_epFrom.ToString())) // checks each endpoint so there are no duplicates
+                    {
+                        m_connectedClients.Add(m_epFrom); // only adds new clients
+                    }
+                }
             }
-            Receive();
+            Receive(); // continues to listen in a loop
         }
 
         public void Send(string text, EndPoint _ep = null)
@@ -66,6 +71,35 @@ namespace DotNetSockets
             else
             {
                 m_socket.SendTo(data, _ep);
+            }
+        }
+
+        // sending to all clients
+        public void BroadcastToAll(string message)
+        {
+            lock (m_connectedClients)
+            {
+                byte[] data = Encoding.ASCII.GetBytes(message);
+                foreach (EndPoint _ep in m_connectedClients) // loops through all conected clients
+                {
+                    m_socket.SendTo(data, _ep); // sends to each individually
+                }
+            }
+        }
+
+        public int GetConnectedClientsCount()
+        {
+            lock (m_connectedClients)
+            {
+                return m_connectedClients.Count;
+            }
+        }
+
+        public List<EndPoint> GetConnectedClients()
+        {
+            lock (m_connectedClients)
+            {
+                return new List<EndPoint>(m_connectedClients);
             }
         }
 

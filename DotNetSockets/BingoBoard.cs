@@ -8,8 +8,8 @@ namespace DotNetSockets
 {
     public class BingoBoard
     {
-        private int[,] m_board;
-        private int m_size;
+        private int[,] m_board; // 2d array for the board
+        private int m_size; // size of board
 
         public BingoBoard(int size = 3)
         {
@@ -17,29 +17,35 @@ namespace DotNetSockets
             m_board = new int[size, size];
         }
 
+        /// <summary>
+        /// fills board with random numbers from 10 to 99 with no duplicates
+        /// it uses GUID to make sure each board is different
+        /// </summary>
         public void InitializeBoard()
         {
-            Random random = new Random(Guid.NewGuid().GetHashCode());
-            HashSet<int> usedNumbers = new HashSet<int>();
+            Random random = new Random(Guid.NewGuid().GetHashCode()); // random with unique seed
+            HashSet<int> usedNumbers = new HashSet<int>(); // hashset to track numbers we have already used
             for (int row = 0; row < m_size; row++)
             {
                 for (int col = 0; col < m_size; col++)
                 {
                     int number;
+
+                    // do while loop that generates numbers until it finds one that hasnt been used
                     do
                     {
-                      number = random.Next(10, 100);
+                      number = random.Next(10, 100); 
                     } 
                     
                     while (usedNumbers.Contains(number));
 
-                    usedNumbers.Add(number);
-                    m_board[row, col] = number;
+                    usedNumbers.Add(number); // adds number to used set
+                    m_board[row, col] = number; // assigns number to board
                 }
             }
         }
 
-        public bool MarkNumber(int number)
+        public bool MarkNumber(int number) // finds number to mark 0
         {
             for (int row = 0; row < m_size; row++)
             {
@@ -55,7 +61,7 @@ namespace DotNetSockets
             return false;
         }
 
-        public bool IsComplete()
+        public bool IsComplete() // checks if the board is complete (only 0's)
         {
             for (int row = 0; row < m_size; row++)
             {
@@ -70,33 +76,39 @@ namespace DotNetSockets
             return true;
         }
 
+        /// <summary>
+        /// converts the board to a string so we can send it to the clients
+        /// </summary>
         public string BoardToString()
         {
-            List<string> numbers = new List<string>();
+            List<string> numbers = new List<string>(); // list to hold the numbers as strings
             for (int row = 0; row < m_size; row++)
             {
                 for (int col = 0; col < m_size; col++)
                 {
-                    numbers.Add(m_board[row, col].ToString());
+                    numbers.Add(m_board[row, col].ToString()); // adds each number to list
                 }
             }
-            return $"SIZE:{m_size}|{string.Join(",", numbers)}";
+            return $"SIZE:{m_size}|{string.Join(",", numbers)}"; // combines into one string to send
         }
 
+        /// <summary>
+        /// takes the string from the server and turns it back into the bingoboard object
+        /// </summary>
         public static BingoBoard ParseBoard(string data)
         {
-            string[] parts = data.Split('|');
-            int size = int.Parse(parts[0].Split(':')[1]);
-            string[] numbers = parts[1].Split(',');
+            string[] parts = data.Split('|'); // splits the SIZE:3 and numbers
+            int size = int.Parse(parts[0].Split(':')[1]); // gets number from SIZE:
+            string[] numbers = parts[1].Split(','); // splits the number string into individual numbers
 
-            BingoBoard board = new BingoBoard(size);
+            BingoBoard board = new BingoBoard(size); // creates new board with right size
             int index = 0;
             for (int row = 0; row < size; row++)
             {
                 for (int col = 0; col < size; col++)
                 {
-                    board.m_board[row, col] = int.Parse(numbers[index]);
-                    index++;
+                    board.m_board[row, col] = int.Parse(numbers[index]); // puts the number in the right spot
+                    index++; // goes to next number in the list
                 }
             }
             return board;
