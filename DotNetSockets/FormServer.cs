@@ -26,7 +26,7 @@ namespace DotNetSockets
         {
             InitializeComponent();
             m_udp.Server("127.0.0.1", 27015);
-
+            comboBoxBoardSize.SelectedIndex = 2;
             m_gameTimer = new System.Timers.Timer(100); // 100ms
             m_gameTimer.Elapsed += GameTimer_Elapsed;
             m_gameTimer.AutoReset = true; // continues until winner
@@ -144,7 +144,7 @@ namespace DotNetSockets
                     m_gameTimer.Stop(); // stops timer
                     comboBoxBoardSize.Enabled = true;
                     listBoxServer.Items.Add("~~~~~~~~~~~~~~~~~~~~~~");
-                    listBoxServer.Items.Add("~~~~~~ WINNER! ~~~~~~");
+                    listBoxServer.Items.Add("~~~~ WINNER FOUND! ~~~~");
                     listBoxServer.Items.Add("~~~~~~~~~~~~~~~~~~~~~~");
                     listBoxServer.Items.Add($"Winner: {message.RemoteEP}"); // shows winner message and endpoint
                     listBoxServer.Items.Add($"Numbers called: {m_calledNumbers.Count}"); // shows total numbers called

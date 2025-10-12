@@ -42,6 +42,7 @@
             // 
             // comboBoxBoardSize
             // 
+            this.comboBoxBoardSize.ForeColor = System.Drawing.SystemColors.WindowText;
             this.comboBoxBoardSize.FormattingEnabled = true;
             this.comboBoxBoardSize.Items.AddRange(new object[] {
             "1x1",

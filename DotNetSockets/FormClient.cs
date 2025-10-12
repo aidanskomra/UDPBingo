@@ -164,8 +164,8 @@ namespace DotNetSockets
                     {
                         label.Text = "0"; // updates label to 0
                         // changes color to show that its marked
-                        label.BackColor = Color.Gold;
-                        label.ForeColor = Color.DarkRed;
+                        label.BackColor = Color.Pink;
+                        label.ForeColor = Color.Red;
                     }
                     else 
                     {
