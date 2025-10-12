@@ -37,7 +37,7 @@
             this.listBoxServer.FormattingEnabled = true;
             this.listBoxServer.Location = new System.Drawing.Point(13, 39);
             this.listBoxServer.Name = "listBoxServer";
-            this.listBoxServer.Size = new System.Drawing.Size(699, 407);
+            this.listBoxServer.Size = new System.Drawing.Size(404, 407);
             this.listBoxServer.TabIndex = 0;
             // 
             // comboBoxBoardSize

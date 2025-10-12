@@ -21,10 +21,12 @@ namespace DotNetSockets
         private Dictionary<string, BingoBoard> m_clientBoards = new Dictionary<string, BingoBoard>(); // track the boards for each client endpoint to distribute them
         private HashSet<int> m_calledNumbers = new HashSet<int>(); // hash set so we do not repeat any numbers on the clients boards
         private int m_boardSize = 3;
+        private Label[] m_recentNumberLabels = new Label[5]; // array to store recently called numbers for visual tracking
 
         public FormServer()
         {
             InitializeComponent();
+            RecentNumbersDisplay();
             m_udp.Server("127.0.0.1", 27015);
             comboBoxBoardSize.SelectedIndex = 2;
             m_gameTimer = new System.Timers.Timer(100); // 100ms
@@ -120,13 +122,14 @@ namespace DotNetSockets
             {
                 number = m_random.Next(10, 100); // 10 - 99 random numbers
                 attempts++;
-            } 
+            }
             while (m_calledNumbers.Contains(number)); // will continue if the number has already been called
 
             m_calledNumbers.Add(number); // adds to called numbers set
             m_udp.BroadcastToAll($"NUMBER:{number}"); // sends number to every client
 
             UpdateUI(() => listBoxServer.Items.Add($"Called: {number}")); // shows number sent to clients in server
+            UpdateRecentNumbersDisplay(number); // shows the display i added for 5 most recently called numbers
         }
 
         public bool UpdateList()
@@ -176,6 +179,48 @@ namespace DotNetSockets
             {
                 action();
             }
+        }
+
+        /// <summary>
+        /// creates the panel for the recent numbers that i added as a little add on to make the server side more visually appealing
+        /// and it shows the 5 most recent numbers sent to the clients
+        /// </summary>
+        private void RecentNumbersDisplay()
+        {
+            Panel recentPanel = new Panel(); // creates panel
+            recentPanel.Location = new Point(580, 20);
+            recentPanel.Size = new Size(100, 290);
+            recentPanel.BackColor = Color.LightGray;
+            recentPanel.BorderStyle = BorderStyle.FixedSingle;
+            this.Controls.Add(recentPanel);
+
+            for (int i = 0; i < 5; i++) // creates 5 labels
+            {
+                m_recentNumberLabels[i] = new Label();
+                m_recentNumberLabels[i].Text = "~~"; // filler text before the game starts
+                m_recentNumberLabels[i].Size = new Size(40, 40);
+                m_recentNumberLabels[i].Location = new Point(25, 35 + (i * 45));
+                m_recentNumberLabels[i].TextAlign = ContentAlignment.MiddleCenter;
+                m_recentNumberLabels[i].BackColor = Color.LimeGreen;
+                m_recentNumberLabels[i].ForeColor = Color.Black;
+                m_recentNumberLabels[i].Font = new Font("Arial", 12, FontStyle.Bold);
+                m_recentNumberLabels[i].BorderStyle = BorderStyle.FixedSingle;
+                recentPanel.Controls.Add(m_recentNumberLabels[i]); // adds the label to the panel
+            }
+        }
+
+        private void UpdateRecentNumbersDisplay(int newNumber)
+        {
+            UpdateUI(() => {
+                // this moves each number down
+                for (int i = 4; i > 0; i--)
+                {
+                    m_recentNumberLabels[i].Text = m_recentNumberLabels[i - 1].Text; // copies from label above
+                    m_recentNumberLabels[i].BackColor = Color.LightBlue; // sets the old colours to light blue
+                }
+
+                m_recentNumberLabels[0].Text = newNumber.ToString(); // add new number at top
+            });
         }
     }
 }
