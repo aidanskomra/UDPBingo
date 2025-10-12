@@ -113,7 +113,7 @@ namespace DotNetSockets
         {
             if (m_winnerFound) return; // stops if there is a winner
 
-            // creating random number
+            // creating random numbers
             int number;
             int attempts = 0;
             do
