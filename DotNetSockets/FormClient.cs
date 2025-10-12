@@ -140,7 +140,7 @@ namespace DotNetSockets
             // moves the listbox lower in case they overlap
             if (listBoxClient != null)
             {
-                listBoxClient.Location = new Point(20, m_boardPanel.Right + 20); // listbox goes 20 pixels to the right of the board
+                listBoxClient.Location = new Point(20, m_boardPanel.Bottom + 20); // listbox goes 20 pixels below the board
                 listBoxClient.Size = new Size(boardSize, 150); // makes it the same width as board with 150 height
             }
         }
