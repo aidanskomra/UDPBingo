@@ -44,9 +44,10 @@
             // 
             this.comboBoxBoardSize.FormattingEnabled = true;
             this.comboBoxBoardSize.Items.AddRange(new object[] {
+            "1x1",
+            "2x2",
             "3x3",
-            "4x4",
-            "5x5"});
+            "4x4"});
             this.comboBoxBoardSize.Location = new System.Drawing.Point(13, 13);
             this.comboBoxBoardSize.Name = "comboBoxBoardSize";
             this.comboBoxBoardSize.Size = new System.Drawing.Size(174, 21);
