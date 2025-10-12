@@ -65,6 +65,11 @@ namespace DotNetSockets
                 return;
             }
 
+            string selectedSize = comboBoxBoardSize.SelectedItem.ToString(); // gets combo box size info
+            int boardSize = int.Parse(selectedSize.Split('x')[0]); // extracts size integer
+            m_boardSize = boardSize; // sets the board size
+
+            comboBoxBoardSize.Enabled = false;
             m_gameStarted = true;
             m_winnerFound = false;
             m_calledNumbers.Clear(); // clears all numbers
@@ -135,6 +140,7 @@ namespace DotNetSockets
                 {
                     m_winnerFound = true;
                     m_gameTimer.Stop(); // stops timer
+                    comboBoxBoardSize.Enabled = true;
                     listBoxServer.Items.Add("~~~~~~~~~~~~~~~~~~~~~~");
                     listBoxServer.Items.Add("~~~~~~ WINNER! ~~~~~~");
                     listBoxServer.Items.Add("~~~~~~~~~~~~~~~~~~~~~~");

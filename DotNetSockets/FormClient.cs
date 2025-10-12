@@ -187,7 +187,6 @@ namespace DotNetSockets
                 listBoxClient.Items.Add("~~~~~~~ BINGO! ~~~~~~~");
                 listBoxClient.Items.Add("~~~~~~~~~~~~~~~~~~~~~~~");
                 listBoxClient.Items.Add("~~~~~~~~~~~~~~~~~~~~~~~");
-
                 MessageBox.Show("BINGO!!!", "WINNER!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); // popup for winner
 
                 // changes the colour of the winners board to green
