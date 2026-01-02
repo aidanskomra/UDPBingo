@@ -82,7 +82,7 @@ namespace DotNetSockets
                 byte[] data = Encoding.ASCII.GetBytes(message);
                 foreach (EndPoint _ep in m_connectedClients) // loops through all conected clients
                 {
-                    m_socket.SendTo(data, _ep); // sends to each individually
+                    m_socket.SendTo(data, _ep); // sends to each individually.
                 }
             }
         }
