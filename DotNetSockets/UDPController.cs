@@ -74,7 +74,7 @@ namespace DotNetSockets
             }
         }
 
-        // sending to all clients
+        // sending to all clients.
         public void BroadcastToAll(string message)
         {
             lock (m_connectedClients)
